@@ -150,6 +150,7 @@ class App:
                 integer_result = int(amountBet)
             except ValueError:
                 self.invalidAmount.config(text= "Enter a valid positive Integer")
+                self.Amount.delete(0, 'end')
                 print("not a valid integer")
             else:
                 #check if input amount is more than 0
@@ -157,6 +158,7 @@ class App:
                     self.invalidAmount.config(text= "")
                     startGame()
                 else:
+                    self.Amount.delete(0, 'end')
                     self.invalidAmount.config(text= "Enter a valid postive Integer only")
 
             #enable startgame button
@@ -170,7 +172,7 @@ class App:
         start.grid(row=13,column=2,columnspan=2,padx=10,pady=10)
 
         # This is the section of code which creates a button to switch to decision phase
-        tk.Button(self.frame, text='Go to Decision Phase', command=self.make_page_1).grid(row=14,column=2,columnspan=2,padx=10,pady=10)
+        tk.Button(self.frame, text='Go to Decision Phase', bg='#7ee643', activebackground="lightgray",font=('arial', 12,'bold'), command=self.make_page_1).grid(row=14,column=1,columnspan=4,padx=10,pady=10)
 
         #assign context variable for decision page
         self.page_1 = Page_1(master=self.root, app=self)
@@ -264,8 +266,8 @@ class Page_1:
         self.Amount.grid(row=11,column=3,columnspan=3,sticky=W,padx=10,ipadx=5,ipady=3,pady=5)
 
         # This is the section of code which creates the a label for invalid entry
-        invalidAmount = tk.Label(self.frame, text='',fg='red', font=('arial', 12, 'normal'))
-        invalidAmount.grid(row=12,column=0,columnspan=6)
+        self.invalidAmount = tk.Label(self.frame, text='',fg='red', font=('arial', 12, 'normal'))
+        self.invalidAmount.grid(row=12,column=0,columnspan=6)
 
 
         #clicksCount = 0
@@ -342,15 +344,17 @@ class Page_1:
             try:
                 integer_result = int(amountBet)
             except ValueError:
-                invalidAmount.config(text= "Enter a valid postive Integer only")
+                self.invalidAmount.config(text= "Enter a valid postive Integer only")
+                self.Amount.delete(0, 'end')
                 print("not a valid integer")
             else:
                 #check if input amount is more than 0
                 if(int(amountBet)>=0):
-                    invalidAmount.config(text= "")
+                    self.invalidAmount.config(text= "")
                     startGame()
                 else:
-                    invalidAmount.config(text= "Enter a valid postive Integer only")
+                    self.invalidAmount.config(text= "Enter a valid postive Integer only")
+                    self.Amount.delete(0, 'end')
                     print(" only positive number allowed")
 
             #enable startgame button
@@ -404,7 +408,7 @@ class Page_2:
         AmountWonLabel.grid(pady=3,row=6,column=3,columnspan=3,padx=10,sticky=W)
 
         # This is the section of code which creates a button to switch to decision phase
-        tk.Button(self.frame, text='Go back to Sampling Phase', command=self.go_back).grid(row=8,column=1,columnspan=4,padx=10,pady=10)
+        tk.Button(self.frame, text='Go back to Sampling Phase', bg='#7ee643', activebackground="lightgray",font=('arial', 12,'bold'), command=self.go_back).grid(row=8,column=1,columnspan=4,padx=10,pady=10)
 
     #loads the current frame when switching
     def start_page(self):
