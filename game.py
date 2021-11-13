@@ -20,12 +20,12 @@ class App:
 
 
         # This is the section of code which creates the heading label
-        tk.Label(self.frame, text='St Petersburg Paradox', bg='#F0F8FF', font=('arial', 30, 'bold')).pack()
+        tk.Label(self.frame, text='St Petersburg Paradox', bg='#F0F8FF', font=('arial', 30, 'bold')).grid(pady=3,row=0,rowspan=2,column=0,columnspan=6)
     
 
 
         # This is the section of code which creates the label to show which phase
-        tk.Label(self.frame, text='Sampling Phase', bg='#F0F8FF', font=('arial', 20, 'normal')).pack()
+        tk.Label(self.frame, text='Sampling Phase', bg='#F0F8FF', font=('arial', 20, 'normal')).grid(pady=3,row=2,column=0,columnspan=6)
 
 
         #load heads to display later
@@ -45,41 +45,41 @@ class App:
 
         # This is the section of code which creates a image to show coin flip output
         coinResult = tk.Label(self.frame, image=unknown)
-        coinResult.pack()
+        coinResult.grid(pady=3,row=6,column=2,columnspan=2,rowspan=2)
 
         # This is the section of code which creates the a label for flipcount
-        tk.Label(self.frame, text='Flip Count: ', bg='#F0F8FF', font=('arial', 18, 'normal')).pack()
+        tk.Label(self.frame, text='Flip Count: ', bg='#F0F8FF', font=('arial', 18, 'normal')).grid(pady=3,row=8,column=0,columnspan=3,sticky=E)
 
         # This is the section of code which creates the a label to diplay flipcount variable
-        showFlipCount = tk.Label(self.frame, text='0', bg='#F0F8FF', font=('arial', 18, 'normal'))
-        showFlipCount.pack()
+        self.showFlipCount = tk.Label(self.frame, text='0', bg='#F0F8FF', font=('arial', 18, 'normal'))
+        self.showFlipCount.grid(pady=3,row=8,column=3,columnspan=3,padx=10,sticky=W)
 
 
         # This is the section of code which creates the a label for headscount
-        tk.Label(self.frame, text='Number of heads: ', bg='#F0F8FF', font=('arial', 18, 'normal')).pack()
+        tk.Label(self.frame, text='Number of heads: ', bg='#F0F8FF', font=('arial', 18, 'normal')).grid(pady=3,row=9,column=0,columnspan=3,sticky=E)
 
         # This is the section of code which creates the a label for headcount variable
-        showHeadCount = tk.Label(self.frame, text='0', bg='#ADD8E6', font=('arial', 18, 'normal'))
-        showHeadCount.pack()
+        self.showHeadCount = tk.Label(self.frame, text='0', bg='#ADD8E6', font=('arial', 18, 'normal'))
+        self.showHeadCount.grid(pady=3,row=9,column=3,columnspan=3,padx=10,sticky=W)
 
 
         # This is the section of code which creates the a label for amount won
-        tk.Label(self.frame, text='Amount won: ', bg='#F0F8FF', font=('arial', 18, 'normal')).pack()
+        tk.Label(self.frame, text='Amount won: ', bg='#F0F8FF', font=('arial', 18, 'normal')).grid(pady=3,row=10,column=0,columnspan=3,sticky=E)
 
         # This is the section of code which creates the a label to display amount won variable
-        showAmountWon = tk.Label(self.frame, text='0', bg='#ADD8E6', font=('arial', 18, 'normal'))
-        showAmountWon.pack()
+        self.showAmountWon = tk.Label(self.frame, text='0', bg='#ADD8E6', font=('arial', 18, 'normal'))
+        self.showAmountWon.grid(pady=3,row=10,column=3,columnspan=3,padx=10,sticky=W)
         
         # This is the section of code which creates the a label for entry amount
-        tk.Label(self.frame, text='Enter an Amount', bg='#F0F8FF', font=('arial', 18, 'normal')).pack()
+        tk.Label(self.frame, text='Enter an Amount', bg='#F0F8FF', font=('arial', 18, 'normal')).grid(pady=3,row=11,column=0,columnspan=3,sticky=E)
 
         # This is the section of code which creates a text input box to enter amount
         self.Amount=Entry(self.frame)
-        self.Amount.pack()
+        self.Amount.grid(row=11,column=3,columnspan=3,sticky=W,padx=10,ipadx=5,ipady=3,pady=5)
 
         # This is the section of code which creates the a label for invalid entry
-        invalidAmount = tk.Label(self.frame, text='',fg='red', font=('arial', 12, 'normal'))
-        invalidAmount.pack()
+        self.invalidAmount = tk.Label(self.frame, text='',fg='red', font=('arial', 12, 'normal'))
+        self.invalidAmount.grid(row=12,column=0,columnspan=6)
 
         #clicksCount=0
         #simulates game phase
@@ -90,10 +90,11 @@ class App:
             #intialize variables to display
             headcount = 0               
             flips=0
-
+            amountWon=0
             #reset count and amount won to 0
-            showHeadCount.config(text= str(headcount)) 
-            showAmountWon.config(text= str(headcount))
+            self.showFlipCount.config(text= str(0))
+            self.showHeadCount.config(text= str(0)) 
+            self.showAmountWon.config(text= str(0))
             
             #update window and sleep
             root.update()
@@ -104,29 +105,33 @@ class App:
 
                 #increment flip count and update text window
                 flips+=1
-                showFlipCount.config(text= str(flips))
+                self.showFlipCount.config(text= str(flips))
 
                 #simulate head or tails and update variables
                 outcome=random.randint(0,1)
                 if outcome == 0:
                     coinResult.config(image=heads)
                     headcount+=1
+                    amountWon=2**(flips)
                     root.update()
                 else:
                     coinResult.config(image=tails)
+                    amountWon=2**(flips)
+                    self.showHeadCount.config(text= str(headcount))
+                    self.showAmountWon.config(text= str(amountWon))
                     root.update()
                     break
 
                 #update labels and window and sleep for showing result
-                showHeadCount.config(text= str(headcount))
-                showAmountWon.config(text= str(2**headcount))
+                self.showHeadCount.config(text= str(headcount))
+                self.showAmountWon.config(text= str(amountWon))
                 root.update()
                 time.sleep(1)
             #another sleep after break statement    
             time.sleep(1)
 
             #rest flip count and slip outcomes to 0 and unknown
-            showFlipCount.config(text= str(0))
+            #self.showFlipCount.config(text= str(0))
             coinResult.config(image=unknown)
             self.Amount.delete(0, 'end')
             root.update()
@@ -144,15 +149,15 @@ class App:
             try:
                 integer_result = int(amountBet)
             except ValueError:
-                invalidAmount.config(text= "Enter a valid positive Integer")
+                self.invalidAmount.config(text= "Enter a valid positive Integer")
                 print("not a valid integer")
             else:
                 #check if input amount is more than 0
                 if(int(amountBet)>0):
-                    invalidAmount.config(text= "")
+                    self.invalidAmount.config(text= "")
                     startGame()
                 else:
-                    invalidAmount.config(text= "Enter a valid postive Integer only")
+                    self.invalidAmount.config(text= "Enter a valid postive Integer only")
 
             #enable startgame button
             start["state"] = "normal"
@@ -162,10 +167,10 @@ class App:
         # This is the section of code which creates a button to start one cycle of coin flip simulation
         start = tk.Button(self.frame, text="Start Game", bg='#FF7F7F', activebackground="lightgray", padx=10, pady=10, command=validate)
         start.config(font=('arial', 12, 'bold'))
-        start.pack()
+        start.grid(row=13,column=2,columnspan=2,padx=10,pady=10)
 
         # This is the section of code which creates a button to switch to decision phase
-        tk.Button(self.frame, text='Go to Decision Phase', command=self.make_page_1).pack()
+        tk.Button(self.frame, text='Go to Decision Phase', command=self.make_page_1).grid(row=14,column=2,columnspan=2,padx=10,pady=10)
 
         #assign context variable for decision page
         self.page_1 = Page_1(master=self.root, app=self)
@@ -179,6 +184,15 @@ class App:
 
     #forgets current page and calls loading function for decision frame
     def make_page_1(self):
+
+        #resets entry and error
+        self.invalidAmount.config(text= "")
+        self.Amount.delete(0, 'end')
+        self.showFlipCount.config(text= str(0))
+        self.showHeadCount.config(text= str(0)) 
+        self.showAmountWon.config(text= str(0))
+
+
         self.frame.pack_forget()
         self.page_1.start_page()
 
@@ -192,12 +206,12 @@ class Page_1:
 
         
         # This is the section of code which creates the heading label
-        tk.Label(self.frame, text='St Petersburg Paradox', bg='#F0F8FF', font=('arial', 30, 'bold')).pack()
+        tk.Label(self.frame, text='St Petersburg Paradox', bg='#F0F8FF', font=('arial', 30, 'bold')).grid(pady=3,row=0,rowspan=2,column=0,columnspan=6)
     
 
 
         # This is the section of code which creates the label to show which phase
-        tk.Label(self.frame, text='Sampling Phase', bg='#F0F8FF', font=('arial', 20, 'normal')).pack()
+        tk.Label(self.frame, text='Decision Phase', bg='#F0F8FF', font=('arial', 20, 'normal')).grid(pady=3,row=2,column=0,columnspan=6)
 
 
         #load heads to display later
@@ -217,41 +231,41 @@ class Page_1:
 
         # This is the section of code which creates a image to show coin flip output
         coinResult = tk.Label(self.frame, image=unknown)
-        coinResult.pack()
+        coinResult.grid(pady=3,row=6,column=2,columnspan=2,rowspan=2)
 
         # This is the section of code which creates the a label for flipcount
-        tk.Label(self.frame, text='Flip Count: ', bg='#F0F8FF', font=('arial', 18, 'normal')).pack()
+        tk.Label(self.frame, text='Flip Count: ', bg='#F0F8FF', font=('arial', 18, 'normal')).grid(pady=3,row=8,column=0,columnspan=3,sticky=E)
 
         # This is the section of code which creates the a label to diplay flipcount variable
         showFlipCount = tk.Label(self.frame, text='0', bg='#F0F8FF', font=('arial', 18, 'normal'))
-        showFlipCount.pack()
+        showFlipCount.grid(pady=3,row=8,column=3,columnspan=3,padx=10,sticky=W)
 
 
         # This is the section of code which creates the a label for headscount
-        tk.Label(self.frame, text='Number of heads: ', bg='#F0F8FF', font=('arial', 18, 'normal')).pack()
+        tk.Label(self.frame, text='Number of heads: ', bg='#F0F8FF', font=('arial', 18, 'normal')).grid(pady=3,row=9,column=0,columnspan=3,sticky=E)
 
         # This is the section of code which creates the a label for headcount variable
         showHeadCount = tk.Label(self.frame, text='0', bg='#ADD8E6', font=('arial', 18, 'normal'))
-        showHeadCount.pack()
+        showHeadCount.grid(pady=3,row=9,column=3,columnspan=3,padx=10,sticky=W)
 
 
         # This is the section of code which creates the a label for amount won
-        tk.Label(self.frame, text='Amount won: ', bg='#F0F8FF', font=('arial', 18, 'normal')).pack()
+        tk.Label(self.frame, text='Amount won: ', bg='#F0F8FF', font=('arial', 18, 'normal')).grid(pady=3,row=10,column=0,columnspan=3,sticky=E)
 
         # This is the section of code which creates the a label to display amount won variable
         showAmountWon = tk.Label(self.frame, text='0', bg='#ADD8E6', font=('arial', 18, 'normal'))
-        showAmountWon.pack()
-
+        showAmountWon.grid(pady=3,row=10,column=3,columnspan=3,padx=10,sticky=W)
+        
         # This is the section of code which creates the a label for entry amount
-        tk.Label(self.frame, text='Enter an Amount', bg='#F0F8FF', font=('arial', 18, 'normal')).pack()
+        tk.Label(self.frame, text='Enter an Amount', bg='#F0F8FF', font=('arial', 18, 'normal')).grid(pady=3,row=11,column=0,columnspan=3,sticky=E)
 
         # This is the section of code which creates a text input box to enter amount
         self.Amount=Entry(self.frame)
-        self.Amount.pack()
+        self.Amount.grid(row=11,column=3,columnspan=3,sticky=W,padx=10,ipadx=5,ipady=3,pady=5)
 
         # This is the section of code which creates the a label for invalid entry
         invalidAmount = tk.Label(self.frame, text='',fg='red', font=('arial', 12, 'normal'))
-        invalidAmount.pack()
+        invalidAmount.grid(row=12,column=0,columnspan=6)
 
 
         #clicksCount = 0
@@ -283,14 +297,17 @@ class Page_1:
                 if outcome == 0:
                     coinResult.config(image=heads)
                     headcount+=1
+                    amountWon=2**flips
                     root.update()
                 else:
                     coinResult.config(image=tails)
+                    amountWon=2**(flips)
+                    showHeadCount.config(text= str(headcount))
+                    showAmountWon.config(text= str(amountWon))
                     root.update()
                     break
 
                 #update labels and window and sleep for showing result
-                amountWon=2**headcount
                 showHeadCount.config(text= str(headcount))
                 showAmountWon.config(text= str(amountWon))
                 root.update()
@@ -342,7 +359,7 @@ class Page_1:
         # This is the section of code which creates a button to start one cycle of coin flip simulation
         start = tk.Button(self.frame, text="Start Game", bg='#FF7F7F', activebackground="lightgray", padx=10, pady=10, command=validate)
         start.config(font=('arial', 12, 'bold'))
-        start.pack()
+        start.grid(row=13,column=2,columnspan=2,padx=10,pady=10)
         
         #tk.Label(self.frame, text='Page 1').pack()
         #tk.Button(self.frame, text='Go back', command=self.make_page_2).pack()
@@ -367,27 +384,27 @@ class Page_2:
 
 
         # This is the section of code which creates the heading label
-        tk.Label(self.frame, text='St Petersburg Paradox', bg='#F0F8FF', font=('arial', 30, 'bold')).pack()
+        tk.Label(self.frame, text='St Petersburg Paradox', bg='#F0F8FF', font=('arial', 30, 'bold')).grid(pady=3,row=0,rowspan=2,column=0,columnspan=6)
 
         # This is the section of code which creates the a label for heading
-        tk.Label(self.frame, text='Outcome').pack()
+        tk.Label(self.frame, text='Outcome', bg='#F0F8FF', font=('arial', 20, 'normal')).grid(pady=3,row=2,column=0,columnspan=6)
 
         # This is the section of code which creates amount bet label
-        tk.Label(self.frame, text='Amount Bet:', bg='#ADD8E6', font=('arial', 18, 'normal')).pack()
+        tk.Label(self.frame, text='Amount Bet:', font=('arial', 18, 'normal')).grid(pady=3,row=5,column=0,columnspan=3,sticky=E)
 
         # This is the section of code which creates the a label to display amount bet variable
-        AmountBetLabel = tk.Label(self.frame, text=str(amountBet), bg='#ADD8E6', font=('arial', 18, 'normal'))
-        AmountBetLabel.pack()
+        AmountBetLabel = tk.Label(self.frame, text=str(amountBet), font=('arial', 18, 'normal'))
+        AmountBetLabel.grid(pady=3,row=5,column=3,columnspan=3,padx=10,sticky=W)
 
         # This is the section of code which creates the a label text for amount won
-        tk.Label(self.frame, text='Amount Won:', bg='#ADD8E6', font=('arial', 18, 'normal')).pack()
+        tk.Label(self.frame, text='Amount Won:', font=('arial', 18, 'normal')).grid(pady=3,row=6,column=0,columnspan=3,sticky=E)
 
         # This is the section of code which creates the a label to display amount won variable
-        AmountWonLabel = tk.Label(self.frame, text=str(amountWon), bg='#ADD8E6', font=('arial', 18, 'normal'))
-        AmountWonLabel.pack()
+        AmountWonLabel = tk.Label(self.frame, text=str(amountWon), font=('arial', 18, 'normal'))
+        AmountWonLabel.grid(pady=3,row=6,column=3,columnspan=3,padx=10,sticky=W)
 
         # This is the section of code which creates a button to switch to decision phase
-        tk.Button(self.frame, text='Go back to Sampling Phase', command=self.go_back).pack()
+        tk.Button(self.frame, text='Go back to Sampling Phase', command=self.go_back).grid(row=8,column=1,columnspan=4,padx=10,pady=10)
 
     #loads the current frame when switching
     def start_page(self):
