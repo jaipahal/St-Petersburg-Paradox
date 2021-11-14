@@ -407,7 +407,7 @@ class Page_2:
         AmountWonLabel = tk.Label(self.frame, text=str(amountWon), font=('arial', 18, 'normal'))
         AmountWonLabel.grid(pady=3,row=6,column=3,columnspan=3,padx=10,sticky=W)
 
-        # This is the section of code which creates a button to switch to decision phase
+        # This is the section of code which creates a button to switch to Sampling phase
         tk.Button(self.frame, text='Go back to Sampling Phase', bg='#7ee643', activebackground="lightgray",font=('arial', 12,'bold'), command=self.go_back).grid(row=8,column=1,columnspan=4,padx=10,pady=10)
 
     #loads the current frame when switching
