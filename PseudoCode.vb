@@ -129,11 +129,3 @@ Class Page_2:
     END go_back() function
     
 END class Page_2 Definiton
-
-    
-
-
-
-
-
-         
